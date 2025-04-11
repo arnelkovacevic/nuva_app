@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from PIL import Image
 
 # Impostazioni della pagina
 st.set_page_config(page_title="Ricerca Dati", layout="wide")
@@ -26,19 +25,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Carica logo
-logo_path = "/Users/arnel/Documents/APPS/nuva_webapp/assets/GMR.png"
-try:
-    logo = Image.open(logo_path)
-    logo = logo.resize((80, 80))  # ridimensiona se necessario
-    col_logo, col_title = st.columns([1, 8])
-    with col_logo:
-        st.image(logo)
-    with col_title:
-        st.title("GMR Inventario - Visualizazatore & Ricerca Dati")
-except Exception as e:
-    st.title("GMR Inventario - Visualizazatore & Ricerca Dati")
-    st.warning(f"Logo non caricato: {e}")
+# Titolo senza logo
+st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
 
 # File uploader
 uploaded_file = st.file_uploader("Carica un file CSV o XLSX", type=["csv", "xlsx"])
