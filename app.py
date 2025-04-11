@@ -27,7 +27,7 @@ st.markdown(
 )
 
 # Carica logo
-logo_path = "/Users/arnel/Documents/APPS/NUVA_WEBAPP/assets/GMR.png"
+logo_path = "/Users/arnel/Documents/APPS/nuva_webapp/assets/GMR.png"
 try:
     logo = Image.open(logo_path)
     logo = logo.resize((80, 80))  # ridimensiona se necessario
