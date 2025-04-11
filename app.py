@@ -27,7 +27,7 @@ st.markdown(
 )
 
 # Carica logo
-logo_path = "/Users/arnel/Documents/APPS/nuva_webapp/assets/GMR.png"
+logo_path = "/Users/arnel/Documents/APPS/NUVA_WEBAPP/assets/GMR.png"
 try:
     logo = Image.open(logo_path)
     logo = logo.resize((80, 80))  # ridimensiona se necessario
@@ -37,7 +37,7 @@ try:
     with col_title:
         st.title("GMR Inventario - Visualizazatore & Ricerca Dati")
 except Exception as e:
-    st.title("GMR INVENTARIO")
+    st.title("GMR Inventario - Visualizazatore & Ricerca Dati")
     st.warning(f"Logo non caricato: {e}")
 
 # File uploader
