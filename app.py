@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from logo import show_logo
 
 # Impostazioni della pagina
 st.set_page_config(page_title="Ricerca Dati", layout="wide")
@@ -24,6 +25,8 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+show.logo()
 
 # Titolo
 st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
