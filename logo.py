@@ -11,4 +11,4 @@ def show_logo():
         unsafe_allow_html=True
     )
     
-    https://imgur.com/a/ItjW4Vh
+    
