@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from logo import show_logo
+from favicon import set_favicon
+set_favicon()
+
 
 # Impostazioni della pagina
 st.set_page_config(page_title="Ricerca Dati", layout="wide")
