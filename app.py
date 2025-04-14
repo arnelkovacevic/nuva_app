@@ -29,7 +29,7 @@ st.markdown(
 st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
 
 # File predefinito (metti qui il tuo link diretto al file XLSX)
-default_file_url = "INSERISCI_IL_TUO_LINK_DIRETTO_XLSX_QUI"
+default_file_url = "https://www.dropbox.com/scl/fi/emc2w2pai7kwv3v25w2pw/Copia-di-mm16.xlsx?rlkey=mwiiwcq2jla6irdli4916cajc&st=kcubfn1e&dl=1"
 
 # Campo per inserire manualmente un link
 url = st.text_input("Inserisci link al file XLSX (OneDrive, Dropbox, ecc.)", value=default_file_url)
