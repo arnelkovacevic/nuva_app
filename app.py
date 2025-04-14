@@ -4,7 +4,7 @@ import pandas as pd
 # Impostazioni della pagina
 st.set_page_config(page_title="Ricerca Dati", layout="wide")
 
-# Tema scuro (da impostazioni Streamlit, oppure manualmente da menu settings UI)
+# Tema scuro (manuale)
 st.markdown(
     """
     <style>
@@ -25,34 +25,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Titolo principale
+# Titolo
 st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
 
-# Input per URL del file
-url = st.text_input("Inserisci link al file XLSX (OneDrive, Dropbox, ecc.)")
+# File predefinito (metti qui il tuo link diretto al file XLSX)
+default_file_url = "INSERISCI_IL_TUO_LINK_DIRETTO_XLSX_QUI"
 
-# Caricamento manuale (come prima)
+# Campo per inserire manualmente un link
+url = st.text_input("Inserisci link al file XLSX (OneDrive, Dropbox, ecc.)", value=default_file_url)
+
+# Uploader manuale
 uploaded_file = st.file_uploader("Oppure carica un file CSV o XLSX", type=["csv", "xlsx"])
 
-# Variabili di stato
+# Inizializzazione variabili
 if "filtered_df" not in st.session_state:
     st.session_state.filtered_df = None
-
 if "original_df" not in st.session_state:
     st.session_state.original_df = None
 
 df = None
 
-# Se presente URL
-if url:
-    try:
-        df = pd.read_excel(url)
-        st.success("File caricato da link!")
-    except Exception as e:
-        st.error("Errore nel caricamento del file dal link. Controlla che il link sia diretto al file.")
-
-# Se presente file caricato manualmente
-elif uploaded_file:
+# 1. Prova a caricare da file manuale
+if uploaded_file:
     try:
         if uploaded_file.name.endswith(".csv"):
             df = pd.read_csv(uploaded_file)
@@ -62,13 +56,21 @@ elif uploaded_file:
     except Exception as e:
         st.error(f"Errore nel caricamento del file: {e}")
 
-# Se abbiamo un DataFrame valido
+# 2. Se non caricato manualmente, prova da link
+if df is None and url:
+    try:
+        df = pd.read_excel(url)
+        st.success("File caricato da link!")
+    except Exception as e:
+        st.error(f"Errore nel caricamento del file dal link: {e}")
+
+# 3. Se abbiamo un DataFrame valido
 if df is not None:
     st.session_state.original_df = df
     st.write("Anteprima dei dati:")
     st.dataframe(df, use_container_width=True)
 
-    # Casella di ricerca
+    # Ricerca
     col1, col2, col3 = st.columns([3, 1, 1])
     with col1:
         search_query = st.text_input("Cerca nella tabella", placeholder="Inserisci testo...")
