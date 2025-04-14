@@ -4,7 +4,7 @@ import pandas as pd
 # Impostazioni della pagina
 st.set_page_config(page_title="Ricerca Dati", layout="wide")
 
-# Tema scuro
+# Tema scuro (manuale)
 st.markdown("""
     <style>
     body {
@@ -19,9 +19,6 @@ st.markdown("""
         background-color: #262730;
         color: white;
     }
-    .hidden {
-        display: none;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -31,82 +28,89 @@ st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
 # Link nascosto predefinito
 default_file_url = "https://www.dropbox.com/scl/fi/emc2w2pai7kwv3v25w2pw/Copia-di-mm16.xlsx?rlkey=mwiiwcq2jla6irdli4916cajc&st=kcubfn1e&dl=1"
 
-# Inizializzazione variabili
-for key in ["filtered_df", "original_df", "file_loaded", "search_query"]:
+# Inizializzazione variabili session_state
+for key in ["filtered_df", "original_df", "file_loaded", "search_results"]:
     if key not in st.session_state:
-        st.session_state[key] = None if "df" in key or "query" in key else False
+        st.session_state[key] = None if "df" in key or "results" in key else False
 
-# Uploader manuale
+# Upload manuale
 uploaded_file = st.file_uploader("Oppure carica un file CSV o XLSX", type=["csv", "xlsx"])
 
-# Campo link opzionale (visivamente nascosto)
-with st.expander("Carica da link personalizzato"):
-    custom_url = st.text_input("Inserisci link al file XLSX")
+# Pulsante "Carica da link"
+url = st.text_input("Inserisci link al file XLSX", value="", key="custom_link_input")
+carica_da_link = st.button("Carica da link")
 
-if st.button("Carica da link") and custom_url.strip():
-    try:
-        df = pd.read_excel(custom_url.strip(), engine="openpyxl")
-        st.session_state.original_df = df
-        st.session_state.file_loaded = True
-        st.success("File caricato dal link personalizzato!")
-    except Exception as e:
-        st.error(f"Errore nel caricamento del file: {e}")
+df = None
 
-# Caricamento da file uploadato
-elif uploaded_file:
+# 1. Caricamento da file uploadato
+if uploaded_file:
     try:
         if uploaded_file.name.endswith(".csv"):
             df = pd.read_csv(uploaded_file)
         else:
             df = pd.read_excel(uploaded_file, engine="openpyxl")
-        st.session_state.original_df = df
-        st.session_state.file_loaded = True
         st.success("File caricato da upload!")
+        st.session_state.file_loaded = True
     except Exception as e:
         st.error(f"Errore nel caricamento del file: {e}")
 
-# Caricamento automatico invisibile
+# 2. Caricamento manuale da link
+elif carica_da_link and url.strip():
+    try:
+        df = pd.read_excel(url.strip(), engine="openpyxl")
+        st.success("File caricato dal link personalizzato!")
+        st.session_state.file_loaded = True
+    except Exception as e:
+        st.error(f"Errore nel caricamento del file dal link: {e}")
+
+# 3. Caricamento automatico invisibile dal link predefinito
 elif not st.session_state.file_loaded:
     try:
         df = pd.read_excel(default_file_url, engine="openpyxl")
-        st.session_state.original_df = df
-        st.session_state.file_loaded = True
         st.success("File caricato automaticamente dal link di default.")
+        st.session_state.file_loaded = True
     except Exception as e:
-        st.error(f"Errore nel caricamento del file di default: {e}")
+        st.error(f"Errore nel caricamento del file dal link predefinito: {e}")
 
-# Se dati presenti, visualizza
+# Se è stato caricato un DataFrame valido
+if df is not None:
+    st.session_state.original_df = df
+
+# Visualizza la tabella originale
 if st.session_state.original_df is not None:
-    st.write("Anteprima dei dati:")
+    st.write("**Tabella completa:**")
     st.dataframe(st.session_state.original_df, use_container_width=True)
 
-    # Ricerca
-    col1, col2 = st.columns([4, 1])
+    # Barra di ricerca
+    col1, col2, col3 = st.columns([3, 1, 1])
     with col1:
-        search_input = st.text_input("Cerca nella tabella", value=st.session_state.search_query or "")
+        search_query = st.text_input("Cerca nella tabella", placeholder="Inserisci testo...")
+
     with col2:
         if st.button("Cerca"):
-            if search_input.strip():
-                st.session_state.search_query = search_input
-                st.session_state.filtered_df = st.session_state.original_df[
+            if search_query.strip():
+                search_result = st.session_state.original_df[
                     st.session_state.original_df.apply(
-                        lambda row: row.astype(str).str.contains(search_input, case=False).any(), axis=1
+                        lambda row: row.astype(str).str.contains(search_query, case=False).any(), axis=1
                     )
                 ]
+                if not search_result.empty:
+                    st.session_state.search_results = search_result
+                else:
+                    st.warning("Nessun risultato trovato.")
             else:
-                st.warning("Inserisci un termine da cercare.")
+                st.warning("Inserisci un termine di ricerca.")
 
-    if st.session_state.filtered_df is not None and not st.session_state.filtered_df.empty:
-        st.markdown("---")
-        st.subheader("Risultati della ricerca:")
-        st.dataframe(st.session_state.filtered_df, use_container_width=True)
-    elif st.session_state.search_query:
-        st.warning("Nessun risultato trovato.")
+    with col3:
+        if st.button("Nuova ricerca"):
+            st.session_state.search_results = None
 
+    # Mostra i risultati della ricerca sotto la tabella principale
+    if st.session_state.search_results is not None:
+        st.write("**Risultati della ricerca:**")
+        st.dataframe(st.session_state.search_results, use_container_width=True)
 
-        # Pulsante Annulla
+    # Pulsante Annulla (resetta tutto)
     if st.button("Annulla"):
-        st.session_state.filtered_df = None
-        st.session_state.original_df = None
-        st.session_state.file_loaded = False
-        st.experimental_rerun()
+        for key in ["filtered_df", "original_df", "search_results", "file_loaded"]:
+            st.session_state[key] = None if "df" in key or "results" in key else False
