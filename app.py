@@ -43,6 +43,8 @@ if "filtered_df" not in st.session_state:
     st.session_state.filtered_df = None
 if "original_df" not in st.session_state:
     st.session_state.original_df = None
+if "file_loaded" not in st.session_state:
+    st.session_state.file_loaded = False
 
 df = None
 
@@ -53,19 +55,30 @@ if uploaded_file:
             df = pd.read_csv(uploaded_file)
         else:
             df = pd.read_excel(uploaded_file, engine="openpyxl")
+        st.session_state.file_loaded = True
         st.success("File caricato da upload!")
     except Exception as e:
         st.error(f"Errore nel caricamento del file: {e}")
 
-# 2. Caricamento da link solo se cliccato
+# 2. Caricamento automatico da link predefinito (solo se non già caricato)
+elif not st.session_state.file_loaded:
+    try:
+        df = pd.read_excel(default_file_url, engine="openpyxl")
+        st.session_state.file_loaded = True
+        st.success("File caricato automaticamente dal link di default!")
+    except Exception as e:
+        st.error(f"Errore nel caricamento del file dal link predefinito: {e}")
+
+# 3. Caricamento manuale da link
 elif carica_da_link and url:
     try:
         df = pd.read_excel(url, engine="openpyxl")
+        st.session_state.file_loaded = True
         st.success("File caricato da link!")
     except Exception as e:
         st.error(f"Errore nel caricamento del file dal link: {e}")
 
-# 3. Visualizzazione dati
+# 4. Visualizzazione dati
 if df is not None:
     st.session_state.original_df = df
     st.write("Anteprima dei dati:")
@@ -92,6 +105,7 @@ if df is not None:
     if st.button("Annulla"):
         st.session_state.filtered_df = None
         st.session_state.original_df = None
+        st.session_state.file_loaded = False
         st.experimental_rerun()
 
     # Mostra risultati
