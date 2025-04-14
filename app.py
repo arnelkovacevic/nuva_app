@@ -1,7 +1,9 @@
+from favicon import set_favicon
 import streamlit as st
 import pandas as pd
 from logo import show_logo
-from favicon import set_favicon
+
+
 set_favicon()
 
 
