@@ -104,7 +104,14 @@ if st.session_state.original_df is not None:
         st.warning("Nessun risultato trovato.")
 
     # Pulsante Reset
+        # Pulsante Reset
     if st.button("Annulla / Reset"):
-        for key in ["filtered_df", "original_df", "search_query", "file_loaded"]:
-            st.session_state[key] = None if "df" in key or "query" in key else False
-        st.experimental_rerun()
+        # Usiamo una chiave di stato temporanea per segnalare il reset
+        st.session_state["do_reset"] = True
+        st.rerun()
+
+# Gestione reset dopo il rerun
+if st.session_state.get("do_reset", False):
+    for key in ["filtered_df", "original_df", "search_query", "file_loaded"]:
+        st.session_state[key] = None if "df" in key or "query" in key else False
+    st.session_state["do_reset"] = False
