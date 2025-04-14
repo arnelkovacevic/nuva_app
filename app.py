@@ -26,7 +26,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-show.logo()
+show_logo()
 
 # Titolo
 st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
