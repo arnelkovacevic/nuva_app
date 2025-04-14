@@ -40,7 +40,7 @@ for key in ["filtered_df", "original_df", "file_loaded", "search_query"]:
         st.session_state[key] = None if "df" in key or "query" in key else False
 
 # Uploader manuale
-uploaded_file = st.file_uploader("Oppure carica un file CSV o XLSX", type=["csv", "xlsx"])
+uploaded_file = st.file_uploader("Carica locale da un file CSV o XLSX", type=["csv", "xlsx"])
 
 # Campo link opzionale (visivamente nascosto)
 with st.expander("Carica da link personalizzato"):
