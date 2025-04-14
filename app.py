@@ -1,14 +1,18 @@
-from favicon import set_favicon
 import streamlit as st
+
+# Deve essere la PRIMA istruzione Streamlit
+st.set_page_config(
+    page_title="GMR Inventario",
+    page_icon="https://i.ibb.co/nqFLS5Kh/GMR.png",
+    layout="wide"
+)
+
+from favicon import set_favicon
 import pandas as pd
 from logo import show_logo
 
-
+# Favicon + PWA support
 set_favicon()
-
-
-# Impostazioni della pagina
-st.set_page_config(page_title="Ricerca Dati", layout="wide")
 
 # Tema scuro
 st.markdown("""
@@ -32,6 +36,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 show_logo()
+
+
 
 # Titolo
 st.title("Visualizzatore & Ricerca Dati")
