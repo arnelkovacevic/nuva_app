@@ -103,8 +103,10 @@ if st.session_state.original_df is not None:
     elif st.session_state.search_query:
         st.warning("Nessun risultato trovato.")
 
-    # Pulsante Reset
-    if st.button("Annulla / Reset"):
-        for key in ["filtered_df", "original_df", "search_query", "file_loaded"]:
-            st.session_state[key] = None if "df" in key or "query" in key else False
+
+        # Pulsante Annulla
+    if st.button("Annulla"):
+        st.session_state.filtered_df = None
+        st.session_state.original_df = None
+        st.session_state.file_loaded = False
         st.experimental_rerun()
