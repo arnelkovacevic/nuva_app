@@ -4,9 +4,11 @@ def show_logo():
     st.markdown(
         """
         <div style='display: flex; align-items: center; justify-content: flex-start; margin-bottom: 20px;'>
-            <img src='https://imgur.com/a/MdxFgrq'width='100'/>
+            <img src='https://imgur.com/a/ItjW4Vh'width='100'/>
             <h2 style='margin-left: 20px;'>GMR Inventario</h2>
         </div>
         """,
         unsafe_allow_html=True
     )
+    
+    https://imgur.com/a/ItjW4Vh
