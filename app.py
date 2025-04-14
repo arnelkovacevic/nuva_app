@@ -29,7 +29,7 @@ st.markdown("""
 show_logo()
 
 # Titolo
-st.title("GMR Inventario - Visualizzatore & Ricerca Dati")
+st.title("Visualizzatore & Ricerca Dati")
 
 # Link nascosto predefinito
 default_file_url = "https://www.dropbox.com/scl/fi/emc2w2pai7kwv3v25w2pw/Copia-di-mm16.xlsx?rlkey=mwiiwcq2jla6irdli4916cajc&st=kcubfn1e&dl=1"
