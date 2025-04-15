@@ -3,7 +3,7 @@ import streamlit as st
 # Deve essere la PRIMA istruzione Streamlit
 st.set_page_config(
     page_title="GMR Inventario",
-    page_icon="https://i.ibb.co/nqFLS5Kh/GMR.png",
+    page_icon="https://i.ibb.co/cK1skNcK/IMG-6318.png",
     layout="wide"
 )
 
