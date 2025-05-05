@@ -9,6 +9,7 @@ def show_logo():
         <div style='display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px;'>
             <a href='https://gmr-inventario.app/login' target='_blank'>
                 <img src='https://i.ibb.co/nqFLS5Kh/GMR.png' width='75'/>
+                <img src='https://i.ibb.co/MkdYPmgJ/ba515e32-8e6a-4a78-8491-0567df6debb4.png' width='75'/>
             </a>
             <h2 style='margin-left: 20px;'>gXLS - Reader</h2>
         </div>
