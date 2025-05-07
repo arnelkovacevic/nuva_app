@@ -11,7 +11,7 @@ def show_logo():
                 <img src='https://i.ibb.co/nqFLS5Kh/GMR.png' width='75'/>
                 <img src='https://i.ibb.co/MkdYPmgJ/ba515e32-8e6a-4a78-8491-0567df6debb4.png' width='56'/>
             </a>
-            <h2 style='margin-left: 20px;'>gXLS - Reader</h2>
+            <h2 style='margin-left: 40px;'>gXLS - Reader</h2>
         </div>
         """,
         unsafe_allow_html=True
