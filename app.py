@@ -43,7 +43,7 @@ show_logo()
 st.title("Visualizzatore & Ricerca Dati")
 
 # Link nascosto predefinito
-default_file_url = "https://www.dropbox.com/scl/fi/lkn9fjp2reqw2qtn31yqe/LAYOUT-07.07.2025.xlsx?rlkey=7tg0ydi79bvuosbbbcgmfhsor&st=zp7poms6&dl=0"
+default_file_url = "https://dl.dropboxusercontent.com/scl/fi/lkn9fjp2reqw2qtn31yqe/LAYOUT-07.07.2025.xlsx?rlkey=7tg0ydi79bvuosbbbcgmfhsor"
 
 # Inizializzazione variabili
 for key in ["filtered_df", "original_df", "file_loaded", "search_query"]:
